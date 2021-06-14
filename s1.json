@@ -1,173 +1,104 @@
-{
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "namespaceName": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of the EventHub namespace. Should be unique across Azure."
-            }
-        },
-        "metadata": {
-            "type": "object",
-            "metadata": {
-                "description": "Metadata for this resource"
-            }
-        },
-        "eventHubName": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of the Event Hub"
-            }
-        },
-        "consumerGroupName": {
-            "type": "string",
-            "defaultValue": "$Default",
-            "metadata": {
-                "description": "Name of the Consumer Group"
-            }
-        },
-        "sku": {
-            "type": "string",
-            "defaultValue": "Standard",
-            "allowedValues": [
-                "Basic",
-                "Standard"
-            ],
-            "metadata": {
-                "description": "Messaging tier of the Event Hub namespace"
-            }
-        },
-        "partitionCount": {
-            "type": "int",
-            "defaultValue": 2,
-            "minValue": 2,
-            "maxValue": 32,
-            "metadata": {
-                "description": "Number of partitions chosen"
-            }
-        },
-        "messageRetentionInDays": {
-            "type": "int",
-            "defaultValue": 1,
-            "minValue": 1,
-            "maxValue": 7,
-            "metadata": {
-                "description": "Number of days for retention"
-            }
-        }
-    },
-    "variables": {
-        "namespaceName": "[parameters('namespaceName')]",
-        "location": "[resourceGroup().location]",
-        "apiVersion": "2015-08-01",
-        "defaultSASKeyName": "RootManageSharedAccessKey",
-        "authRuleResourceId": "[resourceId('Microsoft.EventHub/namespaces/authorizationRules', variables('namespaceName'), variables('defaultSASKeyName'))]",
-        "sendSASKeyName": "SendKey",
-        "sendAuthRuleResourceId": "[resourceId('Microsoft.EventHub/namespaces/eventhubs/authorizationRules', variables('namespaceName'), parameters('eventHubName'), variables('sendSASKeyName'))]",
-        "listenSASKeyName": "ListenKey",
-        "listenAuthRuleResourceId": "[resourceId('Microsoft.EventHub/namespaces/eventhubs/authorizationRules', variables('namespaceName'), parameters('eventHubName'), variables('listenSASKeyName'))]"
-    },
-    "resources": [
-        {
-            "apiVersion": "2015-08-01",
-            "name": "[variables('namespaceName')]",
-            "type": "Microsoft.EventHub/Namespaces",
-            "location": "[variables('location')]",
-            "tags": {
-                "department": "[parameters('metadata').department]",
-                "projectName": "[parameters('metadata').projectName]",
-                "owner": "[parameters('metadata').owner]",
-                "environment": "[parameters('metadata').environment]"
-            },
-            "sku": {
-                "name": "[parameters('sku')]",
-                "tier": "[parameters('sku')]"
-            },
-            "resources": [
-                {
-                    "apiVersion": "2015-08-01",
-                    "name": "[parameters('eventHubName')]",
-                    "type": "EventHubs",
-                    "dependsOn": [
-                        "[concat('Microsoft.EventHub/namespaces/', variables('namespaceName'))]"
-                    ],
-                    "properties": {
-                        "path": "[parameters('eventHubName')]",
-                        "partitionCount": "[parameters('partitionCount')]",
-                        "messageRetentionInDays": "[parameters('messageRetentionInDays')]"
-                    },
-                    "resources": [
-                        {
-                            "apiVersion": "2015-08-01",
-                            "name": "[parameters('consumerGroupName')]",
-                            "type": "ConsumerGroups",
-                            "dependsOn": [
-                                "[parameters('eventHubName')]"
-                            ],
-                            "properties": {}
-                        },
-                        {
-                            "apiVersion": "2015-08-01",
-                            "name": "[variables('sendSASKeyName')]",
-                            "type": "authorizationRules",
-                            "dependsOn": [
-                                "[parameters('eventHubName')]",
-                                "[variables('listenSASKeyName')]"
-                            ],
-                            "comments": "Dependency needed to other authorizationRule because of exception it cannot find this resourcekey",
-                            "properties": {
-                                "Rights": [
-                                    "Send"
-                                ]
-                            }
-                        },
-                        {
-                            "apiVersion": "2015-08-01",
-                            "name": "[variables('listenSASKeyName')]",
-                            "type": "authorizationRules",
-                            "dependsOn": [
-                                "[parameters('eventHubName')]"
-                            ],
-                            "properties": {
-                                "Rights": [
-                                    "Listen"
-                                ]
-                            }
-                        }
-                    ]
-                }
-            ]
-        }
+[
+  {
+    "authorizations": [
+      {
+        "principalId": "9a74af6f-d153-4348-988a-e2672920bee9",
+        "roleDefinitionId": "8e3af657-a8ff-443c-a75c-2fe8c4bcb635"
+      }
     ],
-    "outputs": {
-        "namespaceName": {
-            "type": "string",
-            "value": "[variables('namespaceName')]"
-        },
-        "NamespaceConnectionString": {
-            "type": "string",
-            "value": "[listkeys(variables('authRuleResourceId'), variables('apiVersion')).primaryConnectionString]"
-        },
-        "NamespaceSharedAccessPolicyPrimaryKey": {
-            "type": "string",
-            "value": "[listkeys(variables('authRuleResourceId'), variables('apiVersion')).primaryKey]"
-        },
-        "EventHubSendOnlyConnectionString": {
-            "type": "string",
-            "value": "[listkeys(variables('sendAuthRuleResourceId'), variables('apiVersion')).primaryConnectionString]"
-        },
-        "EventHubSendOnlyPolicyPrimaryKey": {
-            "type": "string",
-            "value": "[listkeys(variables('sendAuthRuleResourceId'), variables('apiVersion')).primaryKey]"
-        },
-        "EventHubListenOnlyConnectionString": {
-            "type": "string",
-            "value": "[listkeys(variables('listenAuthRuleResourceId'), variables('apiVersion')).primaryConnectionString]"
-        },
-        "EventHubListenOnlyPolicyPrimaryKey": {
-            "type": "string",
-            "value": "[listkeys(variables('listenAuthRuleResourceId'), variables('apiVersion')).primaryKey]"
+    "createdBy": {
+      "applicationId": "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
+      "oid": "b98555c5-cdf7-47df-9c9e-04a0776f47e3",
+      "puid": "10033FFF801BEEC0"
+    },
+    "createdDateTime": "2021-06-14T12:16:22.217580+00:00",
+    "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Databricks/workspaces/dbw-Dev-DataBricksExplore",
+    "location": "northeurope",
+    "managedResourceGroupId": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-databricks-dbw-Dev-DataBricksExplore-pfsgkskeky3pc",
+    "name": "dbw-Dev-DataBricksExplore",
+    "parameters": {
+      "customPrivateSubnetName": {
+        "type": "String",
+        "value": "snet-DBricksPrivate"
+      },
+      "customPublicSubnetName": {
+        "type": "String",
+        "value": "snet-DBricksPublic"
+      },
+      "customVirtualNetworkId": {
+        "type": "String",
+        "value": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Network/virtualNetworks/vnet-Dev-DataBricksExplore"
+      },
+      "enableFedRampCertification": {
+        "type": "Bool",
+        "value": false
+      },
+      "enableNoPublicIp": {
+        "type": "Bool",
+        "value": false
+      },
+      "encryption": null,
+      "natGatewayName": {
+        "type": "String",
+        "value": "nat-gateway"
+      },
+      "prepareEncryption": {
+        "type": "Bool",
+        "value": false
+      },
+      "publicIpName": {
+        "type": "String",
+        "value": "nat-gw-public-ip"
+      },
+      "relayNamespaceName": {
+        "type": "String",
+        "value": "dbrelaymz5elgkpw7whq"
+      },
+      "requireInfrastructureEncryption": {
+        "type": "Bool",
+        "value": false
+      },
+      "resourceTags": {
+        "type": "Object",
+        "value": {
+          "Environment": "Dev",
+          "Project": "DataBricksExplore",
+          "application": "databricks",
+          "databricks-environment": "true"
         }
-    }
-}
+      },
+      "storageAccountName": {
+        "type": "String",
+        "value": "dbstoragemz5elgkpw7whq"
+      },
+      "storageAccountSkuName": {
+        "type": "String",
+        "value": "Standard_GRS"
+      },
+      "vnetAddressPrefix": {
+        "type": "String",
+        "value": "10.139"
+      }
+    },
+    "provisioningState": "Succeeded",
+    "resourceGroup": "rg-DataBricks-dev",
+    "sku": {
+      "name": "premium",
+      "tier": null
+    },
+    "storageAccountIdentity": null,
+    "tags": {
+      "Environment": "Dev",
+      "Project": "DataBricksExplore"
+    },
+    "type": "Microsoft.Databricks/workspaces",
+    "uiDefinitionUri": null,
+    "updatedBy": {
+      "applicationId": "04b07795-8ddb-461a-bbee-02f9e1bf7b46",
+      "oid": "b98555c5-cdf7-47df-9c9e-04a0776f47e3",
+      "puid": "10033FFF801BEEC0"
+    },
+    "workspaceId": "5952758580137745",
+    "workspaceUrl": "adb-5952758580137745.5.azuredatabricks.net"
+  }
+]

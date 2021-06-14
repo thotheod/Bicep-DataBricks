@@ -46,6 +46,7 @@ var managedResourceGroupId = '${subscription().id}/resourceGroups/${managedResou
 var dataLakeName = 'st${env}${uniqueString(resourceGroup().id)}${suffix}'
 var keyVaultName = 'kv-${env}-${suffix}'
 var eventHubName = 'evh-${env}-${suffix}-${uniqueString(resourceGroup().id)}'
+var cosmosDBName = 'cosmos-${env}-${suffix}-${uniqueString(resourceGroup().id)}'
 
 //vars for keyvault
 var secretNames = {
@@ -148,6 +149,15 @@ module eventHub 'modules/EventHub.module.bicep' = {
   name: 'eventHubDeployment'
   params: {
     name: eventHubName
+    region: resourceGroup().location
+    tags: resourceTags
+  }
+}
+
+module cosmosDB 'modules/CosmosDB.module.bicep' = {
+  name: 'cosmosDBDeployment'
+  params: {
+    name: cosmosDBName
     region: resourceGroup().location
     tags: resourceTags
   }

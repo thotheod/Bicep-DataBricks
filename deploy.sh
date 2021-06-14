@@ -16,6 +16,8 @@ PARAM_FILE="./deploy.parameters.${ENVIRONMENT}.json"
 NSG_NAME="nsg-${ENVIRONMENT}-DataBricks"
 NSG_ID=""
 
+# 0. use for dynamic extension loader
+az config set extension.use_dynamic_install=yes_without_prompt
 
 # Code - do not change anything here on deployment
 # 1. Set the right subscription
@@ -49,5 +51,5 @@ az deployment group create \
     -g $RG_NAME \
     -p "{ \"nsgID\": { \"value\": \"${NSG_ID}\" } }" \
     -p $PARAM_FILE 
-    
+
 printf "$green"  "*** Deployment finished for ENV: $ENVIRONMENT ***"

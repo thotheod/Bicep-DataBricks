@@ -1,3 +1,5 @@
+//TODO: https://docs.microsoft.com/el-gr/azure/databricks/data/data-sources/azure/adls-gen2/azure-datalake-gen2-sp-access
+
 param name string
 param region string
 param tags object
@@ -31,6 +33,9 @@ resource ws 'Microsoft.Databricks/workspaces@2018-04-01' = {
       customPrivateSubnetName: {
         value: privateSubnetName
       }
+    }
+    storageAccountIdentity: {
+      
     }
   }
 }
