@@ -13,6 +13,8 @@ ENVIRONMENT=dev
 RG_NAME="rg-DataBricks-${ENVIRONMENT}"
 LOCATION=northeurope
 PARAM_FILE="./deploy.parameters.${ENVIRONMENT}.json"
+NSG_NAME="nsg-${ENVIRONMENT}-DataBricks"
+NSG_ID=""
 
 
 # Code - do not change anything here on deployment
@@ -25,13 +27,27 @@ az account set --subscription "$SUBSCRIPTION"
 az group create --name $RG_NAME --location $LOCATION
 printf "$green"  "*** Resource Group $SUBSCRIPTION created (or Existed) ***"
 
-# 3. start the BICEP deployment
+# 3. Create a void NSG that will be used by Databricks. Query first its existance
+printf "$blue" "check if nsg ${NSG_NAME} exists" 
+
+if [[ $(az network nsg list --query "[?name=='${NSG_NAME}']" | jq 'length') -gt 0 ]] 
+then
+    printf "$green"  "NSG ${NSG_NAME} exists, get its ID" 
+    NSG_ID=$(az network nsg list --query "[?name=='${NSG_NAME}']" | jq -r '.[0].id')
+    printf "$green"  "NSG ${NSG_NAME} has NSG_ID: ${NSG_ID}" 
+else
+    printf "$blue"  "NSG ${NSG_NAME} does not exist, create one and get its ID"
+    NEW_NSG=$(az network nsg create --name $NSG_NAME --resource-group $RG_NAME)
+    NSG_ID=$(jq -r '.NewNSG.id' <<< $NEW_NSG)
+    printf "$green"  "NSG ${NSG_NAME} created with NSG_ID is ${NSG_ID}" 
+fi
+
+# 4. start the BICEP deployment
 printf "$blue"  "starting BICEP deployment for ENV: $ENVIRONMENT"
 az deployment group create \
     -f ./deploy.bicep \
     -g $RG_NAME \
-    -c \
-    -p $PARAM_FILE
-
-
+    -p "{ \"nsgID\": { \"value\": \"${NSG_ID}\" } }" \
+    -p $PARAM_FILE 
+    
 printf "$green"  "*** Deployment finished for ENV: $ENVIRONMENT ***"

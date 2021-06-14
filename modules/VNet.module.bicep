@@ -1,7 +1,7 @@
 param name string
 param region string
 param tags object
-param nsgName string
+param nsgID string
 param vnetAddressSpace string 
 param enableVmProtection bool = false
 param enableDdosProtection bool = false
@@ -30,7 +30,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-11-01' = {
         properties: {
           addressPrefix: snetDBricksPublic.subnetPrefix
           networkSecurityGroup: {
-            id: nsg.id
+            id: nsgID
           }
           privateEndpointNetworkPolicies: 'Enabled'
           delegations: [
@@ -48,7 +48,7 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-11-01' = {
         properties: {
           addressPrefix: snetDBricksPrivate.subnetPrefix
           networkSecurityGroup: {
-            id: nsg.id
+            id: nsgID
           }
           privateEndpointNetworkPolicies: 'Enabled'
           delegations: [
@@ -87,12 +87,13 @@ resource vnet 'Microsoft.Network/virtualNetworks@2020-11-01' = {
 }
 
 
-//it 's required for the Databricks subnets
-resource nsg 'Microsoft.Network/networkSecurityGroups@2020-06-01' = {
-  name: nsgName
-  location: region
-  tags: tags
-}
+// //it 's required for the Databricks subnets
+// but needs to be passed externally :(
+// resource nsg 'Microsoft.Network/networkSecurityGroups@2020-06-01' = {
+//   name: nsgName
+//   location: region
+//   tags: tags
+// }
 
 
 output vnetID string = vnet.id

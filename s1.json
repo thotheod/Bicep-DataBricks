@@ -1,0 +1,23 @@
+Deployment failed. Correlation ID: 844c6ec9-9115-4918-a2a6-04b386aeaf42. {
+    "status": "Failed",
+    "error": {
+        "code": "ResourceDeploymentFailure",
+        "message": "The resource operation completed with terminal provisioning state 'Failed'.",
+        "details": [
+            {
+                "code": "DeploymentFailed",
+                "message": "At least one resource deployment operation failed. Please list deployment operations for details. Please see https://aka.ms/DeployOperations for usage details.",
+                "details": [
+                    {
+                        "code": "BadRequest",
+                        "message": "{\r\n  \"error\": {\r\n    \"code\": \"LinkedInvalidPropertyId\",\r\n    \"message\": 
+                            \"Property id 
+                            'C:/Program Files/Git/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Network/networkSecurityGroups/nsg-dev-DataBricks' 
+                            at path 'properties.subnets[0].properties.networkSecurityGroup.id' is invalid. 
+                            Expect fully qualified resource Id that start with '/subscriptions/{subscriptionId}' or '/providers/{resourceProviderNamespace}/'.\"\r\n  }\r\n}"
+                    }
+                ]
+            }
+        ]
+    }
+}/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Network/networkSecurityGroups/nsg-dev-DataBricks

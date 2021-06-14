@@ -27,6 +27,7 @@ param snetBastion object = {
   name: 'AzureBastionSubnet'  //fixed name of subnet de-jure
   subnetPrefix: '192.168.0.224/27'
 }
+param nsgID string
 
 //params Databircks
 param dBricksSKU string = 'premium'
@@ -36,10 +37,10 @@ param dBricksSKU string = 'premium'
 // vars  Resource Names
 var env = resourceTags.Environment
 var vnetName = 'vnet-${env}-${suffix}'
-var nsgName  = 'nsg-${env}-${suffix}'
 var dBricksWSName = 'dbw-${env}-${suffix}'
 var managedResourceGroupName = 'rg-databricks-${dBricksWSName}-${uniqueString(dBricksWSName, resourceGroup().id)}'
 var managedResourceGroupId = '${subscription().id}/resourceGroups/${managedResourceGroupName}'
+var dataLakeName ='st${env}${uniqueString(resourceGroup().id)}${suffix}'
 
 //Create Resources
 
@@ -55,8 +56,8 @@ module vnet 'modules/VNet.module.bicep' = {
     snetAdmin: snetAdmin
     snetBastion: snetBastion    
     vnetAddressSpace: vnetAddressSpace
-    tags: resourceTags  
-    nsgName: nsgName
+    tags: resourceTags
+    nsgID: nsgID
   }
 }
 module dBricksWS 'modules/DataBricks.module.bicep' = {
@@ -72,3 +73,14 @@ module dBricksWS 'modules/DataBricks.module.bicep' = {
     vnetID: vnet.outputs.vnetID
   }
 }
+
+module dataLake 'modules/DataLake.module.bicep' = {
+  name: 'DataLakeDeployment'
+  params: {
+    name: dataLakeName
+    region: resourceGroup().location
+    tags: resourceTags
+  }
+}
+
+output nsgID string = nsgID
