@@ -1,0 +1,246 @@
+{
+    "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Resources/deployments/deploy",
+    "location": null,
+    "name": "deploy",
+    "properties": {
+        "correlationId": "e92626c1-e807-4202-9114-42c2a88cd807",
+        "debugSetting": null,
+        "dependencies": [
+            {
+                "dependsOn": [
+                    {
+                        "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Resources/deployments/vnetDeployment-vnet-Dev-DataBricksExplore",
+                        "resourceGroup": "rg-DataBricks-dev",
+                        "resourceName": "vnetDeployment-vnet-Dev-DataBricksExplore",
+                        "resourceType": "Microsoft.Resources/deployments"
+                    },
+                    {
+                        "apiVersion": "2019-10-01",
+                        "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Resources/deployments/vnetDeployment-vnet-Dev-DataBricksExplore",
+                        "resourceGroup": "rg-DataBricks-dev",
+                        "resourceName": "vnetDeployment-vnet-Dev-DataBricksExplore",
+                        "resourceType": "Microsoft.Resources/deployments"
+                    }
+                ],
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Resources/deployments/DataBricksWorkspaceDeplyment",
+                "resourceGroup": "rg-DataBricks-dev",
+                "resourceName": "DataBricksWorkspaceDeplyment",
+                "resourceType": "Microsoft.Resources/deployments"
+            },
+            {
+                "dependsOn": [
+                    {
+                        "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Resources/deployments/DataFactoryDeployment",
+                        "resourceGroup": "rg-DataBricks-dev",
+                        "resourceName": "DataFactoryDeployment",
+                        "resourceType": "Microsoft.Resources/deployments"
+                    },
+                    {
+                        "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Resources/deployments/DataLakeDeployment",
+                        "resourceGroup": "rg-DataBricks-dev",
+                        "resourceName": "DataLakeDeployment",
+                        "resourceType": "Microsoft.Resources/deployments"
+                    },
+                    {
+                        "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Resources/deployments/eventHubDeployment",
+                        "resourceGroup": "rg-DataBricks-dev",
+                        "resourceName": "eventHubDeployment",
+                        "resourceType": "Microsoft.Resources/deployments"
+                    },
+                    {
+                        "apiVersion": "2019-10-01",
+                        "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Resources/deployments/DataFactoryDeployment",
+                        "resourceGroup": "rg-DataBricks-dev",
+                        "resourceName": "DataFactoryDeployment",
+                        "resourceType": "Microsoft.Resources/deployments"
+                    },
+                    {
+                        "apiVersion": "2019-10-01",
+                        "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Resources/deployments/DataLakeDeployment",
+                        "resourceGroup": "rg-DataBricks-dev",
+                        "resourceName": "DataLakeDeployment",
+                        "resourceType": "Microsoft.Resources/deployments"
+                    },
+                    {
+                        "apiVersion": "2019-10-01",
+                        "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Resources/deployments/eventHubDeployment",
+                        "resourceGroup": "rg-DataBricks-dev",
+                        "resourceName": "eventHubDeployment",
+                        "resourceType": "Microsoft.Resources/deployments"
+                    }
+                ],
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Resources/deployments/keyVaultDeployment",
+                "resourceGroup": "rg-DataBricks-dev",
+                "resourceName": "keyVaultDeployment",
+                "resourceType": "Microsoft.Resources/deployments"
+            }
+        ],
+        "duration": "PT1M19.957763S",
+        "error": null,
+        "mode": "Incremental",
+        "onErrorDeployment": null,
+        "outputResources": [
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Databricks/workspaces/dbw-Dev-DataBricksExplore",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.DataFactory/factories/adf-Dev-DataBricksExplore",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.DocumentDB/databaseAccounts/cosmos-dev-databricksexplore-t63xn3iqeudky",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.EventHub/namespaces/evh-Dev-DataBricksExplore-t63xn3iqeudky",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.EventHub/namespaces/evh-Dev-DataBricksExplore-t63xn3iqeudky/eventhubs/hub1",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.EventHub/namespaces/evh-Dev-DataBricksExplore-t63xn3iqeudky/eventhubs/hub1/authorizationRules/eventHubNameListenSASKey",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.EventHub/namespaces/evh-Dev-DataBricksExplore-t63xn3iqeudky/eventhubs/hub1/authorizationRules/eventHubNameSendSASKey",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.EventHub/namespaces/evh-Dev-DataBricksExplore-t63xn3iqeudky/eventhubs/hub1/consumergroups/cg-hub1",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.KeyVault/vaults/kv-Dev-DataBricksExplore",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.KeyVault/vaults/kv-Dev-DataBricksExplore/secrets/dataLakeConnectionString",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.KeyVault/vaults/kv-Dev-DataBricksExplore/secrets/ehListenCs",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.KeyVault/vaults/kv-Dev-DataBricksExplore/secrets/ehNsManageCs",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.KeyVault/vaults/kv-Dev-DataBricksExplore/secrets/ehSendCs",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Network/virtualNetworks/vnet-Dev-DataBricksExplore",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Storage/storageAccounts/stdevt63xn3iqeudkydatabr",
+                "resourceGroup": "rg-DataBricks-dev"
+            },
+            {
+                "id": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Storage/storageAccounts/stdevt63xn3iqeudkydatabr/blobServices/default",
+                "resourceGroup": "rg-DataBricks-dev"
+            }
+        ],
+        "outputs": null,
+        "parameters": {
+            "dBricksSKU": {
+                "type": "String",
+                "value": "premium"
+            },
+            "keyVaultSku": {
+                "type": "String",
+                "value": "premium"
+            },
+            "nsgID": {
+                "type": "String",
+                "value": "/subscriptions/0a52391c-0d81-434e-90b4-d04f5c670e8a/resourceGroups/rg-DataBricks-dev/providers/Microsoft.Network/networkSecurityGroups/nsg-dev-DataBricks"
+            },
+            "resourceTags": {
+                "type": "Object",
+                "value": {
+                    "Environment": "Dev",
+                    "Project": "DataBricksExplore"
+                }
+            },
+            "snetAdmin": {
+                "type": "Object",
+                "value": {
+                    "name": "snet-Admin",
+                    "subnetPrefix": "192.168.0.192/27"
+                }
+            },
+            "snetBastion": {
+                "type": "Object",
+                "value": {
+                    "name": "AzureBastionSubnet",
+                    "subnetPrefix": "192.168.0.224/27"
+                }
+            },
+            "snetDBricksPrivate": {
+                "type": "Object",
+                "value": {
+                    "name": "snet-DBricksPrivate",
+                    "subnetPrefix": "192.168.0.64/26"
+                }
+            },
+            "snetDBricksPublic": {
+                "type": "Object",
+                "value": {
+                    "name": "snet-DBricksPublic",
+                    "subnetPrefix": "192.168.0.0/26"
+                }
+            },
+            "snetPE": {
+                "type": "Object",
+                "value": {
+                    "name": "snet-PE",
+                    "subnetPrefix": "192.168.0.128/26"
+                }
+            },
+            "suffix": {
+                "type": "String",
+                "value": "DataBricksExplore"
+            },
+            "vnetAddressSpace": {
+                "type": "String",
+                "value": "192.168.0.0/24"
+            }
+        },
+        "parametersLink": null,
+        "providers": [
+            {
+                "id": null,
+                "namespace": "Microsoft.Resources",
+                "registrationPolicy": null,
+                "registrationState": null,
+                "resourceTypes": [
+                    {
+                        "aliases": null,
+                        "apiProfiles": null,
+                        "apiVersions": null,
+                        "capabilities": null,
+                        "defaultApiVersion": null,
+                        "locationMappings": null,
+                        "locations": [
+                            null
+                        ],
+                        "properties": null,
+                        "resourceType": "deployments"
+                    }
+                ]
+            }
+        ],
+        "provisioningState": "Succeeded",
+        "templateHash": "5250592487070146729",
+        "templateLink": null,
+        "timestamp": "2021-06-14T21:18:57.145656+00:00",
+        "validatedResources": null
+    },
+    "resourceGroup": "rg-DataBricks-dev",
+    "tags": null,
+    "type": "Microsoft.Resources/deployments"
+}

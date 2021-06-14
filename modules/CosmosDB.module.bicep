@@ -28,3 +28,7 @@ resource databaseAccount 'Microsoft.DocumentDB/databaseAccounts@2020-06-01-previ
 }
 
 output dbAccountID string = databaseAccount.id
+output dbAccountName string = databaseAccount.name
+//output connectionString string = 'AccountEndpoint=https://${databaseAccount.name}.documents.azure.com:443/;AccountKey=${listKeys(databaseAccount.id, databaseAccount.apiVersion).primaryMasterKey};'
+output PrimaryConnectionString string = listConnectionStrings(databaseAccount.id, databaseAccount.apiVersion).connectionStrings[0].connectionString
+output PrimaryReadOnlyConnectionString string = listConnectionStrings(databaseAccount.id, databaseAccount.apiVersion).connectionStrings[3].connectionString

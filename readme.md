@@ -8,3 +8,4 @@ edit `deploy.sh` file, set your subscription id and the `env` variable (can be e
 - https://bicepdemo.z22.web.core.windows.net/
 - https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/template-functions
 - https://docs.microsoft.com/en-us/azure/templates/
+- https://devkimchi.com/2018/01/05/list-of-access-keys-from-output-values-after-arm-template-deployment/

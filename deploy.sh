@@ -46,10 +46,23 @@ fi
 
 # 4. start the BICEP deployment
 printf "$blue"  "starting BICEP deployment for ENV: $ENVIRONMENT"
-az deployment group create \
+outputs=$(az deployment group create \
     -f ./deploy.bicep \
     -g $RG_NAME \
     -p "{ \"nsgID\": { \"value\": \"${NSG_ID}\" } }" \
-    -p $PARAM_FILE 
+    -p $PARAM_FILE \
+    --query properties.outputs)
 
-printf "$green"  "*** Deployment finished for ENV: $ENVIRONMENT ***"
+DataBricksName=$(jq -r .dataBricksName.value <<< $outputs)
+
+printf "$green"  "*** Deployment finished for ENV: $ENVIRONMENT. DataBricks WS Name: $DataBricksName ***"
+
+
+# outputs=$(az group deployment show --name mainTemplate \
+#   --resource-group "<name>" \
+#   --query properties.outputs)
+
+# # jq needs to be installed
+# jumpboxssh=$(jq -r .jumpboxssh.value <<< $outputs)
+# kibana=$(jq -r .kibana.value <<< $outputs)
+# loadbalancer=$(jq -r .loadbalancer.value <<< $outputs)

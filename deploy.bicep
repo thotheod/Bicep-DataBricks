@@ -3,6 +3,7 @@ targetScope = 'resourceGroup'
 
 // PARAMS General
 param suffix string = 'DataBricksExplore'
+param usePrivateLinks bool = true
 
 // params exported on param file
 param resourceTags object
@@ -50,10 +51,12 @@ var cosmosDBName = 'cosmos-${env}-${suffix}-${uniqueString(resourceGroup().id)}'
 
 //vars for keyvault
 var secretNames = {
-  dataLakeConnectionString: 'dataLakeConnectionString'
-  ehNsManageCs: 'ehNsManageCs'
-  ehSendCs: 'ehSendCs'
-  ehListenCs: 'ehListenCs'
+  DataLakeConnectionString: 'DataLakeConnectionString'
+  EventHubNsManageConnectionString: 'EventHubNsManageConnectionString'
+  EventHubSendConnectionString: 'EventHubSendConnectionString'
+  EventHubListenConnectionString: 'EventHubListenConnectionString'
+  CosmosDBPrimaryConnectionString: 'CosmosDBPrimaryConnectionString'
+  CosmosDBReadOnlyConnectionString: 'CosmosDBReadOnlyConnectionString'
 }
 
 //Create Resources
@@ -126,21 +129,29 @@ module keyVault 'modules/keyvault.module.bicep' = {
     ]
     secrets: [
       {
-        name: secretNames.dataLakeConnectionString
+        name: secretNames.DataLakeConnectionString
         value: dataLake.outputs.connectionString
       }
       {
-        name: secretNames.ehNsManageCs
+        name: secretNames.EventHubNsManageConnectionString
         value: eventHub.outputs.EHNamespaceConnectionString
-      }  
+      }
       {
-        name: secretNames.ehListenCs
+        name: secretNames.EventHubListenConnectionString
         value: eventHub.outputs.EHListenSasKeyCS
       }
       {
-        name: secretNames.ehSendCs
+        name: secretNames.EventHubSendConnectionString
         value: eventHub.outputs.EHSendSasKeyCS
-      }    
+      }
+      {
+        name: secretNames.CosmosDBPrimaryConnectionString
+        value: cosmosDB.outputs.PrimaryConnectionString
+      }
+      {
+        name: secretNames.CosmosDBReadOnlyConnectionString
+        value: cosmosDB.outputs.PrimaryReadOnlyConnectionString
+      }
     ]
   }
 }
@@ -162,3 +173,16 @@ module cosmosDB 'modules/CosmosDB.module.bicep' = {
     tags: resourceTags
   }
 }
+
+module privateLinks 'modules/PrivateEndpoints.conditional.bicep' = if (usePrivateLinks) {
+  name: 'privateLinksDeployment'
+  params: {
+    tags: resourceTags
+    cosmosDbId: cosmosDB.outputs.dbAccountID
+    cosmosDBName: cosmosDB.outputs.dbAccountName
+    subnetPeID: vnet.outputs.snetPEID
+    vnetID: vnet.outputs.vnetID
+  }
+}
+
+output dataBricksName string = dBricksWS.outputs.dataBricksName
