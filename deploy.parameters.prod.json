@@ -7,6 +7,9 @@
                 "Environment": "Prod",
                 "Project": "DataBricksExplore"
             }
+        },
+        "keyVaultSku": {
+            "value": "premium"
         }
     }
 }
