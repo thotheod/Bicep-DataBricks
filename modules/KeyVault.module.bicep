@@ -15,7 +15,7 @@ param accessPolicies array = []
 param secrets array = []
 
 resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' = {
-  name: substring(name, 0, 24)
+  name: length(name) > 24 ? substring(name, 0, 24) : name
   location: region
   properties: {
     tenantId: subscription().tenantId
@@ -28,7 +28,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2019-09-01' = {
   tags: tags
 }
 
-module secretsDeployment 'keyvault.secrets.module.bicep' = if (!empty(secrets)) {
+module secretsDeployment 'KeyVault.secrets.module.bicep' = if (!empty(secrets)) {
   name: 'keyvault-secrets'
   params: {
     keyVaultName: keyVault.name

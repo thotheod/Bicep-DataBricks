@@ -61,7 +61,7 @@ param isDataLake bool = true
 param allowBlobPublicAccess bool = false
 
 resource storage 'Microsoft.Storage/storageAccounts@2019-06-01' = {  
-  name: toLower(substring(replace(name, '-', ''), 0, 24))
+  name: length(name) > 24 ? toLower(substring(replace(name, '-', ''), 0, 24)) : toLower(replace(name, '-', ''))
   location: region  
   kind: kind
   sku: sku

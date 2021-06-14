@@ -45,11 +45,14 @@ var managedResourceGroupName = 'rg-databricks-${dBricksWSName}-${uniqueString(dB
 var managedResourceGroupId = '${subscription().id}/resourceGroups/${managedResourceGroupName}'
 var dataLakeName = 'st${env}${uniqueString(resourceGroup().id)}${suffix}'
 var keyVaultName = 'kv-${env}-${suffix}'
+var eventHubName = 'evh-${env}-${suffix}-${uniqueString(resourceGroup().id)}'
 
 //vars for keyvault
 var secretNames = {
   dataLakeConnectionString: 'dataLakeConnectionString'
-  serviceBusConnectionString: 'serviceBusConnectionstring'
+  ehNsManageCs: 'ehNsManageCs'
+  ehSendCs: 'ehSendCs'
+  ehListenCs: 'ehListenCs'
 }
 
 //Create Resources
@@ -125,10 +128,27 @@ module keyVault 'modules/keyvault.module.bicep' = {
         name: secretNames.dataLakeConnectionString
         value: dataLake.outputs.connectionString
       }
-      // {
-      //   name: secretNames.serviceBusConnectionString
-      //   value: serviceBus.outputs.connectionString
-      // }      
+      {
+        name: secretNames.ehNsManageCs
+        value: eventHub.outputs.EHNamespaceConnectionString
+      }  
+      {
+        name: secretNames.ehListenCs
+        value: eventHub.outputs.EHListenSasKeyCS
+      }
+      {
+        name: secretNames.ehSendCs
+        value: eventHub.outputs.EHSendSasKeyCS
+      }    
     ]
+  }
+}
+
+module eventHub 'modules/EventHub.module.bicep' = {
+  name: 'eventHubDeployment'
+  params: {
+    name: eventHubName
+    region: resourceGroup().location
+    tags: resourceTags
   }
 }
