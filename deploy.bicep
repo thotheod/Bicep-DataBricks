@@ -37,6 +37,7 @@ param dBricksSKU string = 'premium'
 // vars  Resource Names
 var env = resourceTags.Environment
 var vnetName = 'vnet-${env}-${suffix}'
+var dataFactoryName = 'adf-${env}-${suffix}'
 var dBricksWSName = 'dbw-${env}-${suffix}'
 var managedResourceGroupName = 'rg-databricks-${dBricksWSName}-${uniqueString(dBricksWSName, resourceGroup().id)}'
 var managedResourceGroupId = '${subscription().id}/resourceGroups/${managedResourceGroupName}'
@@ -78,6 +79,15 @@ module dataLake 'modules/DataLake.module.bicep' = {
   name: 'DataLakeDeployment'
   params: {
     name: dataLakeName
+    region: resourceGroup().location
+    tags: resourceTags
+  }
+}
+
+module dataFactory 'modules/DataFactory.module.bicep' = {
+  name: 'DataFactoryDeployment'
+  params:{
+    name: dataFactoryName
     region: resourceGroup().location
     tags: resourceTags
   }
