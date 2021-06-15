@@ -50,7 +50,9 @@ var managedResourceGroupId = '${subscription().id}/resourceGroups/${managedResou
 var dataLakeName = 'st${env}${uniqueString(resourceGroup().id)}${suffix}'
 var keyVaultName = 'kv-${env}-${suffix}'
 var eventHubName = 'evh-${env}-${suffix}-${uniqueString(resourceGroup().id)}'
-var cosmosDBName = 'cosmos-${env}-${suffix}-${uniqueString(resourceGroup().id)}'
+var cosmosDBAccountName = 'cosmos-${env}-${suffix}-${uniqueString(resourceGroup().id)}'
+var cosmosDBName = 'adventureWorks'
+var cosmosContainerName = 'stores'
 var bastionName = 'bastionHost${env}'
 
 //vars for keyvault
@@ -172,7 +174,9 @@ module eventHub 'modules/EventHub.module.bicep' = {
 module cosmosDB 'modules/CosmosDB.module.bicep' = {
   name: 'cosmosDBDeployment'
   params: {
-    name: cosmosDBName
+    name: cosmosDBAccountName
+    databaseName: cosmosDBName
+    containerName: cosmosContainerName
     region: resourceGroup().location
     tags: resourceTags
   }
