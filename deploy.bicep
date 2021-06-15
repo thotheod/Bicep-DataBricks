@@ -188,6 +188,8 @@ module privateLinks 'modules/PrivateEndpoints.conditional.bicep' = if (usePrivat
     eventHubNsId: eventHub.outputs.EventHubNamespaceId
     keyVaultName: keyVault.outputs.name
     keyVaultId: keyVault.outputs.id
+    adfID: dataFactory.outputs.id
+    adfName: dataFactory.outputs.name
   }
 }
 

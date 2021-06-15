@@ -17,6 +17,8 @@ param privateDnsZoneId string
   'Sql'
   'dfs'
   'vault'
+  'dataFactory'
+  'portal'
 ])
 param serviceLinkGroupId string
 

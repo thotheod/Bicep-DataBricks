@@ -12,6 +12,9 @@ resource dataFactory 'Microsoft.DataFactory/factories@2018-06-01' = {
   properties: {}
 }
 
+
+output name string = dataFactory.name
+output id string = dataFactory.id
 output identity object = {
   tenantId: dataFactory.identity.tenantId
   principalId: dataFactory.identity.principalId
