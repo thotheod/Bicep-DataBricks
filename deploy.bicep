@@ -223,3 +223,6 @@ module bastion 'modules/bastion.module.bicep' = {
 }
 
 output dataBricksName string = dBricksWS.outputs.dataBricksName
+output dataLakeID string = dataLake.outputs.id
+output akvID string = keyVault.outputs.id
+output akvURL string = 'https://${toLower(keyVault.outputs.name)}.vault.azure.net/'//https://kv-dev-databricksexplore.vault.azure.net/

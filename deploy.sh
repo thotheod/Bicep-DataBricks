@@ -21,48 +21,50 @@ az config set extension.use_dynamic_install=yes_without_prompt
 
 # Code - do not change anything here on deployment
 # 1. Set the right subscription
-printf "$blue"  "*** Setting the subsription to $SUBSCRIPTION ***"
+printf "$blue" "*** Setting the subsription to $SUBSCRIPTION ***"
 az account set --subscription "$SUBSCRIPTION"
-
 
 # 2. Create main Resource group if not exists
 az group create --name $RG_NAME --location $LOCATION
-printf "$green"  "*** Resource Group $SUBSCRIPTION created (or Existed) ***"
+printf "$green" "*** Resource Group $SUBSCRIPTION created (or Existed) ***"
 
 # 3. Create a void NSG that will be used by Databricks. Query first its existance
-printf "$blue" "check if nsg ${NSG_NAME} exists" 
+printf "$blue" "check if nsg ${NSG_NAME} exists"
 
-if [[ $(az network nsg list --query "[?name=='${NSG_NAME}']" | jq 'length') -gt 0 ]] 
-then
-    printf "$green"  "NSG ${NSG_NAME} exists, get its ID" 
+if [[ $(az network nsg list --query "[?name=='${NSG_NAME}']" | jq 'length') -gt 0 ]]; then
+    printf "$green" "NSG ${NSG_NAME} exists, get its ID"
     NSG_ID=$(az network nsg list --query "[?name=='${NSG_NAME}']" | jq -r '.[0].id')
-    printf "$green"  "NSG ${NSG_NAME} has NSG_ID: ${NSG_ID}" 
+    printf "$green" "NSG ${NSG_NAME} has NSG_ID: ${NSG_ID}"
 else
-    printf "$blue"  "NSG ${NSG_NAME} does not exist, create one and get its ID"
-    NEW_NSG=$(az network nsg create --name $NSG_NAME --resource-group $RG_NAME)
-    NSG_ID=$(jq -r '.NewNSG.id' <<< $NEW_NSG)
-    printf "$green"  "NSG ${NSG_NAME} created with NSG_ID is ${NSG_ID}" 
+    printf "$blue" "NSG ${NSG_NAME} does not exist, create one and get its ID"
+    NEW_NSG=$(az network nsg create --name $NSG_NAME --resource-group $az ad sp show --id your-client-id)
+    NSG_ID=$(jq -r '.NewNSG.id' <<<$NEW_NSG)
+    printf "$green" "NSG ${NSG_NAME} created with NSG_ID is ${NSG_ID}"
 fi
 
 # 4. start the BICEP deployment
-printf "$blue"  "starting BICEP deployment for ENV: $ENVIRONMENT"
-outputs=$(az deployment group create \
+printf "$blue" "starting BICEP deployment for ENV: $ENVIRONMENT"
+az deployment group create \
     -f ./deploy.bicep \
     -g $RG_NAME \
     -p "{ \"nsgID\": { \"value\": \"${NSG_ID}\" } }" \
-    -p $PARAM_FILE \
-    --query properties.outputs)
+    -p $PARAM_FILE
 
-DataBricksName=$(jq -r .dataBricksName.value <<< $outputs)
+printf "$green" "*** Deployment finished for ENV: $ENVIRONMENT.  ***"
+printf "$green" "***************************************************"
 
-printf "$green"  "*** Deployment finished for ENV: $ENVIRONMENT. DataBricks WS Name: $DataBricksName ***"
+# get the outputs of the deployment
+outputs=$(az deployment group show --name deploy -g $RG_NAME --query properties.outputs)
+
+# store them in variables
+DataBricksName=$(jq -r .dataBricksName.value <<<$outputs)
+DataLakeID=$(jq -r .dataLakeID.value <<<$outputs)
+AKV_ID=$(jq -r .akvID.value <<<$outputs)
+AKV_URL=$(jq -r .akvURL.value <<<$outputs)
+
+printf "$green" "DataBricksName:   $DataBricksName"
+printf "$green" "DataLakeID:       $DataLakeID"
+printf "$green" "AKV_ID:           $AKV_ID"
+printf "$green" "AKV_URL:          $AKV_URL"
 
 
-# outputs=$(az group deployment show --name mainTemplate \
-#   --resource-group "<name>" \
-#   --query properties.outputs)
-
-# # jq needs to be installed
-# jumpboxssh=$(jq -r .jumpboxssh.value <<< $outputs)
-# kibana=$(jq -r .kibana.value <<< $outputs)
-# loadbalancer=$(jq -r .loadbalancer.value <<< $outputs)
