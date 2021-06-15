@@ -51,6 +51,7 @@ var dataLakeName = 'st${env}${uniqueString(resourceGroup().id)}${suffix}'
 var keyVaultName = 'kv-${env}-${suffix}'
 var eventHubName = 'evh-${env}-${suffix}-${uniqueString(resourceGroup().id)}'
 var cosmosDBName = 'cosmos-${env}-${suffix}-${uniqueString(resourceGroup().id)}'
+var bastionName = 'bastionHost${env}'
 
 //vars for keyvault
 var secretNames = {
@@ -214,7 +215,7 @@ module vm 'modules/vmjumpbox.module.bicep' = {
 module bastion 'modules/bastion.module.bicep' = {
   name: 'bastionDeployment'
   params: {
-    name: vmJumpBox.name
+    name: bastionName
     region: resourceGroup().location
     tags: resourceTags
     subnetId: vnet.outputs.snetBastionID
