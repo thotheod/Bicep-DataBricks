@@ -36,6 +36,9 @@ param nsgID string
 //params Databircks
 param dBricksSKU string = 'premium'
 
+//params VM
+param vmJumpBox object
+
 //VARS
 // vars  Resource Names
 var env = resourceTags.Environment
@@ -190,6 +193,31 @@ module privateLinks 'modules/PrivateEndpoints.conditional.bicep' = if (usePrivat
     keyVaultId: keyVault.outputs.id
     adfID: dataFactory.outputs.id
     adfName: dataFactory.outputs.name
+  }
+}
+
+module vm 'modules/vmjumpbox.module.bicep' = {
+  name: 'vmJumpboxDeployment'
+  params: {
+    name: vmJumpBox.name
+    region: resourceGroup().location
+    tags: resourceTags
+    adminUserName: vmJumpBox.adminUserName
+    adminPassword: vmJumpBox.adminPassword
+    dnsLabelPrefix: vmJumpBox.dnsLabelPrefix
+    subnetId: vnet.outputs.snetAdminID
+    vmSize:  vmJumpBox.vmSize
+    windowsOSVersion: vmJumpBox.windowsOSVersion
+  }
+}
+
+module bastion 'modules/bastion.module.bicep' = {
+  name: 'bastionDeployment'
+  params: {
+    name: vmJumpBox.name
+    region: resourceGroup().location
+    tags: resourceTags
+    subnetId: vnet.outputs.snetBastionID
   }
 }
 

@@ -22,7 +22,7 @@ output identity object = {
 }
 
 
-//todo
+// gone with Private Link for DataFctory (not portal)
 // https://docs.microsoft.com/en-us/azure/data-factory/data-factory-service-identity
 // https://docs.microsoft.com/en-us/azure/data-factory/data-factory-private-link
 // https://docs.microsoft.com/en-us/azure/data-factory/managed-virtual-network-private-endpoint

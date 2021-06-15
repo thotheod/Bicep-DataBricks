@@ -10,6 +10,16 @@
         },
         "keyVaultSku": {
             "value": "premium"
+        },
+        "vmJumpBox": {
+            "value": {
+                "name": "vmJumpBoxDev",
+                "adminUserName": "vmadmin",
+                "adminPassword": "zxNMasKL12()",
+                "dnsLabelPrefix": "vmtt20210601",
+                "vmSize": "Standard_D2_v3",
+                "windowsOSVersion": "2019-Datacenter"
+            }
         }
     }
 }
