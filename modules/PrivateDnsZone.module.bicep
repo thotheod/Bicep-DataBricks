@@ -1,5 +1,5 @@
 //  See https://docs.microsoft.com/en-us/azure/private-link/private-endpoint-dns for privateDNS zones names
-param privateDNSZoneName string 
+param privateDNSZoneName string
 param vnetID string
 
 resource privateDnsZone 'Microsoft.Network/privateDnsZones@2018-09-01' = {

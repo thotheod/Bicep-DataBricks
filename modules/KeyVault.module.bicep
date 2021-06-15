@@ -1,3 +1,7 @@
+//By Default SoftDeletion is on.
+//if you delete the keyvault then it stays for some days as soft deleted
+// run az keyvault list-deleted to find it
+//and then az keyvault purge --name xxxxx to purge it
 param name string
 param region string
 param tags object

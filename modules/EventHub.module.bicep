@@ -64,6 +64,8 @@ resource eventHubNameListenSASKey 'Microsoft.EventHub/namespaces/eventhubs/autho
   }
 }
 
+output EventHubNamespace string = namespace.name
+output EventHubNamespaceId string = namespace.id
 output EHNamespaceConnectionString string = listkeys(authRuleNsResourceId, eventHub.apiVersion).primaryConnectionString
 output EHSendSasKey string = listkeys(eventHubNameSendSASKey.id, eventHubNameSendSASKey.apiVersion).primaryKey
 output EHSendSasKeyCS string = listkeys(eventHubNameSendSASKey.id, eventHubNameSendSASKey.apiVersion).primaryConnectionString

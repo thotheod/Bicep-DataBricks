@@ -15,6 +15,8 @@ param privateDnsZoneId string
   'redisCache'
   'namespace'
   'Sql'
+  'dfs'
+  'vault'
 ])
 param serviceLinkGroupId string
 

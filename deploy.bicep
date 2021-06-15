@@ -182,6 +182,12 @@ module privateLinks 'modules/PrivateEndpoints.conditional.bicep' = if (usePrivat
     cosmosDBName: cosmosDB.outputs.dbAccountName
     subnetPeID: vnet.outputs.snetPEID
     vnetID: vnet.outputs.vnetID
+    dataLakeName: dataLake.outputs.name
+    dataLakeId: dataLake.outputs.id
+    eventHubNamespace: eventHub.outputs.EventHubNamespace
+    eventHubNsId: eventHub.outputs.EventHubNamespaceId
+    keyVaultName: keyVault.outputs.name
+    keyVaultId: keyVault.outputs.id
   }
 }
 
