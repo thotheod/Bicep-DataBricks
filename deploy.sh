@@ -37,7 +37,7 @@ if [[ $(az network nsg list --query "[?name=='${NSG_NAME}']" | jq 'length') -gt 
     printf "$green" "NSG ${NSG_NAME} has NSG_ID: ${NSG_ID}"
 else
     printf "$blue" "NSG ${NSG_NAME} does not exist, create one and get its ID"
-    NEW_NSG=$(az network nsg create --name $NSG_NAME --resource-group $az ad sp show --id your-client-id)
+    NEW_NSG=$(az network nsg create --name $NSG_NAME --resource-group $RG_NAME)
     NSG_ID=$(jq -r '.NewNSG.id' <<<$NEW_NSG)
     printf "$green" "NSG ${NSG_NAME} created with NSG_ID is ${NSG_ID}"
 fi
@@ -66,5 +66,3 @@ printf "$green" "DataBricksName:   $DataBricksName"
 printf "$green" "DataLakeID:       $DataLakeID"
 printf "$green" "AKV_ID:           $AKV_ID"
 printf "$green" "AKV_URL:          $AKV_URL"
-
-
