@@ -1,5 +1,5 @@
 @description('The principal to assign the role to')
-param principalId string = 'xxx'
+param principalId string = '04f8f0a5-1084-4e09-b0e3-526c2df16584'
 
 @description('A new GUID used to identify the role assignment')
 param roleNameGuid string = guid(resourceGroup().id)
